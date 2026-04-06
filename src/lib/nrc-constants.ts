@@ -45,7 +45,7 @@ export const NRC_TYPES = [
 
 // Get townships for a specific region
 export function getTownshipsByRegion(region: string): { value: string; label: string }[] {
-  const data = MYANMAR_NRC_DATA[region];
+  const data = (MYANMAR_NRC_DATA as Record<string, { name: string; townships: string[] }>)[region];
   if (!data) return [];
   
   return data.townships.map(township => ({
@@ -56,7 +56,7 @@ export function getTownshipsByRegion(region: string): { value: string; label: st
 
 // Get region name
 export function getRegionName(region: string): string {
-  return MYANMAR_NRC_DATA[region]?.name || '';
+  return (MYANMAR_NRC_DATA as Record<string, { name: string; townships: string[] }>)[region]?.name || '';
 }
 
 // Format NRC number from parts

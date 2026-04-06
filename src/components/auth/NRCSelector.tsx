@@ -19,7 +19,7 @@ export default function NRCSelector({ value, onChange, error }: NRCSelectorProps
   const [townships, setTownships] = useState<{ value: string; label: string }[]>([]);
 
   useEffect(() => {
-    if (value.region && MYANMAR_NRC_DATA[value.region]) {
+    if (value.region && MYANMAR_NRC_DATA[value.region as keyof typeof MYANMAR_NRC_DATA]) {
       setTownships(getTownshipsByRegion(value.region));
     } else {
       setTownships([]);

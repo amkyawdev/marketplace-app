@@ -19,7 +19,7 @@ export default function NRCSelector({ value, onChange, className = '' }: NRCSele
   // Get townships for selected region
   const availableTownships = useMemo(() => {
     if (!region) return [];
-    return MYANMAR_NRC_DATA[region]?.townships || [];
+    return MYANMAR_NRC_DATA[region as keyof typeof MYANMAR_NRC_DATA]?.townships || [];
   }, [region]);
 
   // Get citizen type label in Burmese
@@ -67,7 +67,7 @@ export default function NRCSelector({ value, onChange, className = '' }: NRCSele
               <option value="" className="bg-slate-900">ရွေးပါပါ...</option>
               {NRC_REGIONS.map((r) => (
                 <option key={r.value} value={r.value} className="bg-slate-900">
-                  {r.label} - {MYANMAR_NRC_DATA[r.value]?.name || ''}
+                  {r.label} - {MYANMAR_NRC_DATA[r.value as keyof typeof MYANMAR_NRC_DATA]?.name || ''}
                 </option>
               ))}
             </select>
