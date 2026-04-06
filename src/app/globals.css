@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #6366f1;
+  --primary-light: #818cf8;
+  --secondary: #8b5cf6;
+  --accent: #f472b6;
+  --background: #0f172a;
+  --surface: rgba(30, 41, 59, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--background);
+  color: #f8fafc;
+  min-height: 100vh;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Glassmorphism Card */
+@layer components {
+  .glass-card {
+    @apply bg-glass-bg backdrop-blur-glass border border-glass-border rounded-glass;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+  }
+
+  .glass-input {
+    @apply bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/40;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50;
+    @apply transition-all duration-200;
+  }
+
+  .glass-button {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-200;
+    @apply bg-gradient-to-r from-primary to-secondary text-white;
+    @apply hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/25;
+    @apply active:scale-[0.98];
+  }
+
+  .glass-button-secondary {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-200;
+    @apply bg-white/10 border border-white/20 text-white;
+    @apply hover:bg-white/20 hover:border-white/30;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1 0%, #f472b6 50%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow Effects */
+.glow-primary {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.glow-secondary {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px rgba(244, 114, 182, 0.4);
+}
+
+/* Background Pattern */
+.bg-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(244, 114, 182, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+}
+
+/* Product Card Hover */
+.product-card-hover {
+  @apply transition-all duration-300;
+}
+
+.product-card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(99, 102, 241, 0.15);
+}
+
+/* Status Badge */
+.status-badge {
+  @apply px-3 py-1 rounded-full text-xs font-medium border;
+}
+
+/* NRC Input Styling */
+.nrc-input {
+  @apply font-mono text-center tracking-widest;
+  letter-spacing: 0.2em;
+}
+
+/* Loading Skeleton */
+.skeleton {
+  @apply bg-white/10 rounded animate-pulse;
+}
+
+/* Camera Viewfinder */
+.camera-viewfinder {
+  @apply relative rounded-2xl overflow-hidden;
+  aspect-ratio: 4/3;
+}
+
+.camera-viewfinder::before {
+  content: '';
+  @apply absolute inset-0 border-2 border-white/30 rounded-2xl;
+}
+
+.camera-viewfinder::after {
+  content: '';
+  @apply absolute inset-0 pointer-events-none;
+  background: 
+    linear-gradient(to right, transparent 49%, rgba(255,255,255,0.5) 50%, transparent 51%),
+    linear-gradient(to bottom, transparent 49%, rgba(255,255,255,0.5) 50%, transparent 51%);
+  background-size: 20px 20px;
+}
