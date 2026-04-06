@@ -13,25 +13,50 @@ interface CameraProps {
 export default function Camera({ onCapture, label, imagePreview, onClear }: CameraProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
+  const [useFileInput, setUseFileInput] = useState(false);
 
   const startCamera = async () => {
     try {
       setError(null);
+      
+      // Try rear camera first (mobile)
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment', width: 1280, height: 720 }
+        video: { 
+          facingMode: { ideal: 'environment' }, 
+          width: { ideal: 1280 }, 
+          height: { ideal: 720 } 
+        }
       });
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         setIsStreaming(true);
         setShowCamera(true);
+        setUseFileInput(false);
       }
     } catch (err) {
-      setError('Unable to access camera. Please check permissions.');
-      console.error('Camera error:', err);
+      console.log('Camera not available, trying front camera...');
+      try {
+        // Try front camera
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user' }
+        });
+        
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          setIsStreaming(true);
+          setShowCamera(true);
+          setUseFileInput(false);
+        }
+      } catch (err2) {
+        console.log('No camera available, using file input');
+        setUseFileInput(true);
+        setError('Camera not available. Please use file upload option.');
+      }
     }
   };
 
@@ -67,6 +92,13 @@ export default function Camera({ onCapture, label, imagePreview, onClear }: Came
         stopCamera();
       }
     }, 'image/jpeg', 0.9);
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      onCapture(file);
+    }
   };
 
   useEffect(() => {
@@ -120,13 +152,11 @@ export default function Camera({ onCapture, label, imagePreview, onClear }: Came
                 className="w-full h-full object-cover"
               />
               
-              {/* Viewfinder overlay */}
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute inset-0 border-2 border-white/30 rounded-2xl m-4" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border-2 border-primary/50 rounded-full" />
               </div>
 
-              {/* Corner markers */}
               <div className="absolute top-8 left-8 w-8 h-8 border-l-2 border-t-2 border-white" />
               <div className="absolute top-8 right-8 w-8 h-8 border-r-2 border-t-2 border-white" />
               <div className="absolute bottom-8 left-8 w-8 h-8 border-l-2 border-b-2 border-white" />
@@ -138,15 +168,46 @@ export default function Camera({ onCapture, label, imagePreview, onClear }: Came
                 onClick={capturePhoto}
                 className="flex-1 py-3 bg-primary hover:bg-primary/80 rounded-xl font-semibold transition-colors"
               >
-                Capture
+                📸 Capture
               </button>
               <button
-                onClick={stopCamera}
+                onClick={() => setUseFileInput(true)}
                 className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-semibold transition-colors"
               >
-                Cancel
+                📁 Upload
               </button>
             </div>
+          </motion.div>
+        ) : useFileInput || error ? (
+          <motion.div
+            key="file-input"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <input
+              type="file"
+              accept="image/*"
+              capture="environment"
+              ref={fileInputRef}
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full py-12 border-2 border-dashed border-white/20 rounded-2xl hover:border-primary/50 hover:bg-white/5 transition-all group"
+            >
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-16 h-16 rounded-full bg-white/10 group-hover:bg-primary/20 flex items-center justify-center transition-colors">
+                  <svg className="w-8 h-8 text-white/70 group-hover:text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <span className="text-white/70 group-hover:text-white transition-colors">
+                  Click to upload photo
+                </span>
+              </div>
+            </button>
           </motion.div>
         ) : (
           <motion.div
