@@ -1,7 +1,7 @@
 // Myanmar NRC Constants
 // Complete NRC data with all regions and townships
 
-export const MYANMAR_NRC_DATA: Record<string, { name: string; townships: string[] }> = {
+export const MYANMAR_NRC_DATA = {
   "1": { name: "Kachin State", townships: ["ကတန", "ခဖန", "ဆလန", "ဆပန", "တနန", "နမန", "ပတန", "ဖကန", "မကန", "မခန", "မနန", "မမန", "မညန", "ယကန", "ဟပန"] },
   "2": { name: "Kayah State", townships: ["ကဃန", "ဃရန", "ဒမန", "ဖသန", "ဖရန", "မသန", "ယတန", "လကန"] },
   "3": { name: "Kayin State", townships: ["ကဆန", "ကကန", "ကရန", "ဖအန", "ဘအန", "မဝန", "သတန", "ယရန"] },
