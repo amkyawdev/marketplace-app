@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { NRC_REGIONS, NRC_TYPES, NRC_TOWNSHIPS, formatNRC } from '@/lib/nrc-constants';
+import { NRC_REGIONS, NRC_TYPES, MYANMAR_NRC_DATA, formatNRC, getTownshipsByRegion } from '@/lib/nrc-constants';
 
 interface NRCSelectorProps {
   value: {
@@ -19,8 +19,8 @@ export default function NRCSelector({ value, onChange, error }: NRCSelectorProps
   const [townships, setTownships] = useState<{ value: string; label: string }[]>([]);
 
   useEffect(() => {
-    if (value.region && NRC_TOWNSHIPS[value.region]) {
-      setTownships(NRC_TOWNSHIPS[value.region]);
+    if (value.region && MYANMAR_NRC_DATA[value.region]) {
+      setTownships(getTownshipsByRegion(value.region));
     } else {
       setTownships([]);
     }
