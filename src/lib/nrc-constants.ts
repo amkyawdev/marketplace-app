@@ -1,5 +1,24 @@
 // Myanmar NRC Constants
-// Region Numbers (1-14)
+// Complete NRC data with all regions and townships
+
+export const MYANMAR_NRC_DATA: Record<string, { name: string; townships: string[] }> = {
+  "1": { name: "Kachin State", townships: ["ကတန", "ခဖန", "ဆလန", "ဆပန", "တနန", "နမန", "ပတန", "ဖကန", "မကန", "မခန", "မနန", "မမန", "မညန", "ယကန", "ဟပန"] },
+  "2": { name: "Kayah State", townships: ["ကဃန", "ဃရန", "ဒမန", "ဖသန", "ဖရန", "မသန", "ယတန", "လကန"] },
+  "3": { name: "Kayin State", townships: ["ကဆန", "ကကန", "ကရန", "ဖအန", "ဘအန", "မဝန", "သတန", "ယရန"] },
+  "4": { name: "Chin State", townships: ["ကပန", "တဇန", "တတန", "ထတန", "ပလန", "မတန", "မပန", "ဟခန", "ယကန"] },
+  "5": { name: "Sagaing Region", townships: ["ကနန", "ကလန", "ခဥန", "ကလေး", "ခတန", "ငဇန", "စကန", "ဆလန", "တမန", "တဆန", "ထလန", "နယန", "ပလန", "ဖလန", "မကန", "မရန", "မမန", "ယမန", "ရဘန", "သကန", "ဟမန", "အတန"] },
+  "6": { name: "Tanintharyi Region", townships: ["ကသန", "ဃယန", "တသန", "ထဝန", "ပလန", "မမန", "မရန", "ရလန", "လလန", "အသန"] },
+  "7": { name: "Bago Region", townships: ["ကကန", "ကတန", "ကပန", "ခတန", "ငပန", "စကန", "ညလန", "တငန", "ထတန", "နတန", "ပခန", "ပတန", "ပမန", "ဖမန", "မလန", "မညန", "ရတန", "ရကန", "လတန", "ဝမန", "သနန", "အဖန"] },
+  "8": { name: "Magway Region", townships: ["ကမန", "ခမန", "ငဖန", "စကန", "စတန", "ဆဖြန", "ဆပန", "တတန", "ထလန", "နမန", "ပကန", "ပမန", "ဖလန", "မကန", "မထန", "မတန", "ယနန", "ရစန", "လတန", "သရန"] },
+  "9": { name: "Mandalay Region", townships: ["ကပန", "ကဆန", "ခမန", "စကန", "ညဥန", "တတန", "တကန", "ထကန", "နထန", "ပကန", "ပဘန", "ပမန", "ပသန", "မထန", "မကန", "မရန", "မလန", "ရမန", "ဝတန", "သကန", "အမရ", "အပန"] },
+  "10": { name: "Mon State", townships: ["ကမရ", "ခဆန", "ဃဇန", "ဇရန", "သထန", "သဖြန", "ပဏန", "မဒန", "မလန", "ယမန"] },
+  "11": { name: "Rakhine State", townships: ["ကတန", "ကျပန", "ဂဝန", "စတန", "တကန", "သတန", "နရန", "ပဏန", "ပတန", "မအန", "မတန", "မပန", "ရသန", "စပန"] },
+  "12": { name: "Yangon Region", townships: ["ကကတ", "ကတတ", "ကမန", "ကမရ", "ကောက်", "ခယန", "စကန", "ဆကန", "တကန", "တမန", "တတန", "ဒဂန", "ဒဂဆ", "ဒဂတ", "ဒဂယ", "ဒပုံ", "ပဘတ", "ပဇတ", "ဗဟန", "ဗတထ", "မကန", "မရက", "ရကန", "လမန", "လသယ", "လှက", "သကတ", "သဃက", "သလန", "အလန", "ဥကတ"] },
+  "13": { name: "Shan State", townships: ["ကတန", "ကလန", "ခလန", "ဃတန", "စဆန", "ဆလန", "တကန", "တယန", "နခန", "နတန", "နစန", "နပန", "နဆန", "ပကန", "ပတန", "ပလန", "ဖခန", "မကန", "မခန", "မတန", "မတန", "မပန", "မရန", "မဆန", "မယန", "ယကန", "ယစန", "ယရန", "လခန", "လရန", "လလန", "ဟပန", "ဟရန", "အတန"] },
+  "14": { name: "Ayeyarwady Region", townships: ["ကကန", "ကပန", "ကလန", "ကမန", "ငပတ", "စလန", "ဇလန", "ညတန", "တတန", "ဓနန", "နပတ", "ပတန", "ဖပန", "ဘကလ", "မအန", "မမန", "မြန", "ယကန", "လပတ", "ဝခမ", "သပန", "အဂပ", "အမန"] }
+};
+
+// Region Numbers (1-14) in Burmese numerals
 export const NRC_REGIONS = [
   { value: '1', label: '၁' },
   { value: '2', label: '၂' },
@@ -24,90 +43,21 @@ export const NRC_TYPES = [
   { value: 'P', label: '(P)', description: 'Pyn' },
 ] as const;
 
-// Township Abbreviations by Region
-export const NRC_TOWNSHIPS: Record<string, { value: string; label: string }[]> = {
-  '1': [
-    { value: 'MMA', label: 'MMA' },
-    { value: 'MMD', label: 'MMD' },
-    { value: 'KNS', label: 'KNS' },
-    { value: 'KNT', label: 'KNT' },
-    { value: 'TKN', label: 'TKN' },
-  ],
-  '2': [
-    { value: 'BMG', label: 'BMG' },
-    { value: 'BNT', label: 'BNT' },
-    { value: 'PTH', label: 'PTH' },
-    { value: 'MDY', label: 'MDY' },
-    { value: 'YMT', label: 'YMT' },
-  ],
-  '3': [
-    { value: 'KYA', label: 'KYA' },
-    { value: 'KYT', label: 'KYT' },
-    { value: 'TPI', label: 'TPI' },
-    { value: 'TTL', label: 'TTL' },
-  ],
-  '4': [
-    { value: 'MLK', label: 'MLK' },
-    { value: 'KYT', label: 'KYT' },
-    { value: 'THT', label: 'THT' },
-    { value: 'SNP', label: 'SNP' },
-  ],
-  '5': [
-    { value: 'PNN', label: 'PNN' },
-    { value: 'PNT', label: 'PNT' },
-    { value: 'PPT', label: 'PPT' },
-    { value: 'PKT', label: 'PKT' },
-  ],
-  '6': [
-    { value: 'MDL', label: 'MDL' },
-    { value: 'MNL', label: 'MNL' },
-    { value: 'HAM', label: 'HAM' },
-    { value: 'HSM', label: 'HSM' },
-  ],
-  '7': [
-    { value: 'TSS', label: 'TSS' },
-    { value: 'TSY', label: 'TSY' },
-    { value: 'BHT', label: 'BHT' },
-    { value: 'KPY', label: 'KPY' },
-  ],
-  '8': [
-    { value: 'YGN', label: 'YGN' },
-    { value: 'YGK', label: 'YGK' },
-    { value: 'MLN', label: 'MLN' },
-    { value: 'KTU', label: 'KTU' },
-  ],
-  '9': [
-    { value: 'AYY', label: 'AYY' },
-    { value: 'AYT', label: 'AYT' },
-    { value: 'GNT', label: 'GNT' },
-    { value: 'BGO', label: 'BGO' },
-  ],
-  '10': [
-    { value: 'HGN', label: 'HGN' },
-    { value: 'HGT', label: 'HGT' },
-    { value: 'TKU', label: 'TKU' },
-  ],
-  '11': [
-    { value: 'BKN', label: 'BKN' },
-    { value: 'BKT', label: 'BKT' },
-    { value: 'TDO', label: 'TDO' },
-  ],
-  '12': [
-    { value: 'SNY', label: 'SNY' },
-    { value: 'SNW', label: 'SNW' },
-    { value: 'MKN', label: 'MKN' },
-  ],
-  '13': [
-    { value: 'YAY', label: 'YAY' },
-    { value: 'YAT', label: 'YAT' },
-    { value: 'MAU', label: 'MAU' },
-  ],
-  '14': [
-    { value: 'ACH', label: 'ACH' },
-    { value: 'ACM', label: 'ACM' },
-    { value: 'HPA', label: 'HPA' },
-  ],
-};
+// Get townships for a specific region
+export function getTownshipsByRegion(region: string): { value: string; label: string }[] {
+  const data = MYANMAR_NRC_DATA[region];
+  if (!data) return [];
+  
+  return data.townships.map(township => ({
+    value: township,
+    label: township
+  }));
+}
+
+// Get region name
+export function getRegionName(region: string): string {
+  return MYANMAR_NRC_DATA[region]?.name || '';
+}
 
 // Format NRC number from parts
 export function formatNRC(parts: { region: string; township: string; type: string; serial: string }): string {
@@ -116,7 +66,7 @@ export function formatNRC(parts: { region: string; township: string; type: strin
 
 // Parse NRC number string to parts
 export function parseNRC(nrc: string): { region: string; township: string; type: string; serial: string } | null {
-  const match = nrc.match(/^(\d+)\/([A-Z]+)\(([NAP])\)(\d{6})$/);
+  const match = nrc.match(/^(\d+)\/([\u1000-\u100A]+)\(([NAP])\)(\d{6})$/);
   if (!match) return null;
   
   return {
